@@ -20,6 +20,8 @@
     --payoff-soft:#E1F1EB;
     --control:#AF3344;       /* control points / irreversible */
     --control-soft:#F8E7EA;
+    --enzyme:#5B4B9E;        /* enzymes (catalysts) */
+    --enzyme-soft:#ECE9F7;
     --display:'Space Grotesk',sans-serif;
     --body:'Newsreader',Georgia,serif;
     --mono:'JetBrains Mono',monospace;
@@ -38,9 +40,11 @@
   }
 
   .sheet{max-width:860px;margin:0 auto}
+  html{scroll-behavior:smooth}
+  :target{scroll-margin-top:24px}
 
   /* ---------- Header ---------- */
-  header{margin-bottom:40px}
+  header{margin-bottom:44px}
   .eyebrow{
     font-family:var(--mono);
     font-size:12px;
@@ -60,9 +64,60 @@
   .bigpic{
     font-size:19px;
     color:var(--ink-soft);
-    max-width:60ch;
   }
   .bigpic strong{color:var(--ink);font-weight:600}
+
+  /* ---------- Big-picture metabolic stage flow ---------- */
+  .bigmap{display:flex;flex-direction:column;align-items:stretch;gap:6px;max-width:340px;margin:36px auto 0}
+
+  /* input / output are molecules — rendered as distinct pills */
+  .bigmap .io{
+    text-align:center;padding:13px 18px;border-radius:999px;
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  .bigmap .io .iolbl{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:4px}
+  .bigmap .io .ioname{font-family:var(--display);font-weight:700;font-size:16px;line-height:1.1}
+  .bigmap .io .iosub{font-family:var(--mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;margin-top:4px}
+  .bigmap .io.in{background:var(--surface);border:2px solid var(--ink)}
+  .bigmap .io.in .ioname{color:var(--ink)}
+  .bigmap .io.in .iolbl,.bigmap .io.in .iosub{color:var(--ink-soft)}
+  .bigmap .io.out{background:var(--payoff);border:2px solid var(--payoff)}
+  .bigmap .io.out .ioname{color:#fff}
+  .bigmap .io.out .iolbl,.bigmap .io.out .iosub{color:#A7D8C8}
+
+  /* the three energy-harvesting processes — cards showing ATP yield */
+  .bigmap .proc{
+    background:var(--surface);border:1px solid var(--line);border-radius:11px;
+    padding:13px 16px;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:12px;
+  }
+  .bigmap .proc .proclbl{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px}
+  .bigmap .proc .procname{font-family:var(--display);font-weight:600;font-size:15px;line-height:1.15}
+  .bigmap .proc .atp{font-family:var(--display);font-weight:700;font-size:18px;color:var(--payoff);flex:0 0 auto;white-space:nowrap;text-align:right}
+  .bigmap .proc.here{border-color:var(--invest);background:var(--invest-soft);box-shadow:0 0 0 1px var(--invest)}
+  .bigmap .proc.here .proclbl{color:var(--invest)}
+
+  /* downward connector */
+  .bigmap .sep{display:flex;align-items:center;justify-content:center;color:var(--ink-soft);font-size:18px;line-height:1}
+
+  /* glycolysis → TCA handoff: two process boxes joined by the PDH arrow */
+  .duo{display:flex;align-items:stretch;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:16px}
+  .duo .pbox{
+    background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:12px 16px 14px;display:flex;flex-direction:column;justify-content:center;
+  }
+  .duo .pbox .pboxlbl{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-bottom:10px}
+  .duo .pbox.gly{border-color:var(--invest);background:var(--invest-soft)}
+  .duo .pbox.gly .pboxlbl{color:var(--invest)}
+  .duo .pbox .pboxbody{display:flex;align-items:flex-start;gap:9px;flex-wrap:wrap}
+  .duo .mw{display:inline-flex;flex-direction:column;align-items:center;gap:5px}
+  .duo .iolab{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+  .duo .iarw{color:var(--ink-soft);font-family:var(--mono);font-size:14px;padding-top:7px}
+  .duo .cont{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);padding-top:8px}
+
+  .duo .bridge{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0 4px;flex:0 0 auto}
+  .duo .bridge .btag{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--enzyme);background:var(--enzyme-soft);padding:2px 7px;border-radius:999px}
+  .duo .bridge .benz{font-family:var(--display);font-style:italic;font-weight:600;font-size:12.5px;color:var(--enzyme);text-align:center;line-height:1.15;max-width:108px}
+  .duo .bridge .barw{font-size:22px;color:var(--enzyme);line-height:1}
 
   /* ---------- ATP ledger ---------- */
   .ledger{
@@ -81,18 +136,55 @@
     text-transform:uppercase;color:var(--ink-soft);
   }
   .ledger .cell .v{
-    font-family:var(--display);font-weight:600;font-size:22px;margin-top:4px;
+    font-family:var(--display);font-weight:600;font-size:20px;margin-top:4px;
   }
+  .ledger .cell .x{display:block;font-family:var(--mono);font-weight:400;font-size:11px;color:var(--ink-soft);margin-top:5px}
   .ledger .invest .v{color:var(--invest)}
   .ledger .payoff .v{color:var(--payoff)}
   .ledger .net{background:var(--ink);border-color:var(--ink)}
   .ledger .net .k{color:#9FB0BD}
   .ledger .net .v{color:#fff}
+  .ledger .net .x{color:#9FB0BD}
 
-  /* ---------- Phase legend ---------- */
+  /* ---------- Table of contents ---------- */
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+  .toc a{
+    font-family:var(--mono);font-size:12px;letter-spacing:.03em;text-decoration:none;
+    color:var(--ink-soft);border:1px solid var(--line);background:var(--surface);
+    border-radius:999px;padding:8px 14px;display:inline-flex;gap:8px;align-items:center;
+    transition:border-color .15s,color .15s;
+  }
+  .toc a:hover{border-color:var(--ink);color:var(--ink)}
+  .toc a .n{color:var(--invest);font-weight:600}
+
+  /* ---------- Table of contents — fixed side dropdown ---------- */
+  .toc-side{position:fixed;top:20px;right:20px;z-index:50}
+  .toc-side details{
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    box-shadow:0 6px 22px rgba(20,32,43,.10);overflow:hidden;
+  }
+  .toc-side summary{
+    list-style:none;cursor:pointer;padding:11px 14px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    font-weight:600;color:var(--ink);display:flex;align-items:center;gap:10px;white-space:nowrap;
+  }
+  .toc-side summary::-webkit-details-marker{display:none}
+  .toc-side summary::after{content:"▾";font-size:10px;color:var(--ink-soft);margin-left:auto}
+  .toc-side details[open] summary::after{content:"▴"}
+  .toc-side .toc-menu{display:flex;flex-direction:column;border-top:1px solid var(--line);padding:6px}
+  .toc-side .toc-menu a{
+    font-family:var(--mono);font-size:11px;text-decoration:none;color:var(--ink-soft);
+    padding:8px 9px;border-radius:6px;white-space:nowrap;display:flex;gap:8px;
+  }
+  .toc-side .toc-menu a:hover{background:var(--bg);color:var(--ink)}
+  .toc-side .toc-menu a .n{color:var(--invest);font-weight:600}
+  @media (max-width:680px){.toc-side{top:12px;right:12px}}
+  @media print{.toc-side{display:none}}
+
+  /* ---------- Legend (phases + enzyme/compound vocabulary) ---------- */
   .legend{
-    display:flex;flex-wrap:wrap;gap:18px;
-    margin-top:26px;padding-top:22px;border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;gap:16px 22px;
+    margin:14px 0 18px;
     font-family:var(--mono);font-size:12px;color:var(--ink-soft);
   }
   .legend span{display:inline-flex;align-items:center;gap:8px}
@@ -100,25 +192,176 @@
   .dot.i{background:var(--invest)}
   .dot.p{background:var(--payoff)}
   .dot.c{background:var(--control)}
+  .legend .chip-c{
+    font-family:var(--mono);font-weight:600;font-size:11px;color:var(--ink);
+    background:var(--surface);border:1.5px solid var(--line);border-radius:999px;padding:2px 9px;
+  }
+  .legend .chip-e{color:var(--enzyme);font-style:italic;font-weight:600}
 
-  /* ---------- Pathway spine ---------- */
-  .pathway{margin-top:52px;position:relative}
-  .spine-head{
+  /* ---------- Shared molecule / enzyme vocabulary ---------- */
+  .cmpd{
+    font-family:var(--mono);font-weight:600;font-size:14px;color:var(--ink);
+    background:var(--surface);border:1.5px solid var(--line);border-radius:999px;
+    padding:7px 14px;display:inline-flex;align-items:center;gap:7px;
+  }
+  /* de-emphasized (not must-know) molecule */
+  .cmpd.muted{color:#90A0AC;background:var(--bg);border-color:var(--line);border-style:dashed}
+
+  /* ---------- Section panels ---------- */
+  .section{margin-top:56px}
+  h2{
+    font-family:var(--display);font-weight:700;
+    font-size:27px;letter-spacing:-.01em;margin:40px 0 6px;
+  }
+  .section > h2{margin-top:0}
+  h2 .num{color:var(--ink-soft);font-weight:500;font-size:18px;margin-right:10px;font-family:var(--mono)}
+  .section > .lede,header .lede{color:var(--ink-soft);font-size:16.5px;margin-bottom:22px}
+
+  .panel{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:14px;padding:24px;
+  }
+  .panel + .panel{margin-top:16px}
+
+  /* ---------- Overview map: whole pathway, compact ---------- */
+  .map{position:relative;padding-left:14px}
+  .map::before{content:"";position:absolute;left:5px;top:10px;bottom:10px;width:2px;background:var(--line)}
+  .map .node{position:relative;margin:0 0 2px;padding:5px 0}
+  .map .node::before{content:"";position:absolute;left:-13px;top:50%;width:9px;height:9px;border-radius:50%;background:var(--surface);border:2px solid var(--line);transform:translateY(-50%)}
+  .map .link{
+    position:relative;padding:7px 0 7px 18px;margin-left:0;
+    display:flex;align-items:center;flex-wrap:wrap;gap:8px;
+  }
+  /* step number badge */
+  .map .sn{
+    font-family:var(--mono);font-size:11px;font-weight:600;
+    width:21px;height:21px;border-radius:50%;flex:0 0 auto;
+    display:inline-flex;align-items:center;justify-content:center;
+    background:var(--enzyme-soft);color:var(--enzyme);
+  }
+  .map .link .ez{font-family:var(--display);font-style:italic;font-weight:600;font-size:14px;color:var(--enzyme)}
+  /* de-emphasized (not must-know) enzyme conversions — housekeeping shuffles */
+  .map .link.muted .sn{background:#EDF1F4;color:#90A0AC}
+  .map .link.muted .ez{color:#90A0AC;font-weight:500}
+  .map .link.muted .cost{background:#EDF1F4;color:#90A0AC}
+  .map .link .cost{
+    font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+    padding:2px 7px;border-radius:999px;font-weight:600;white-space:nowrap;
+  }
+  .map .link .cost.inv{background:var(--invest-soft);color:var(--invest)}
+  .map .link .cost.pay{background:var(--payoff-soft);color:var(--payoff)}
+  .map .link .cost.ctl{background:var(--control-soft);color:var(--control)}
+  .map .link .cost.plain{background:#EAF0F4;color:var(--ink-soft)}
+  /* ---- expandable detail dropdowns ---- */
+  details.link{display:block;padding:0;margin:0}
+  details.link > summary{
+    list-style:none;cursor:pointer;
+    position:relative;padding:7px 0 7px 18px;margin-left:0;
+    display:flex;align-items:center;flex-wrap:wrap;gap:8px;
+    border-radius:8px;
+  }
+  details.link > summary::-webkit-details-marker{display:none}
+  details.link > summary:hover{background:var(--bg)}
+  .map .more{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--enzyme);
+    background:var(--enzyme-soft);border-radius:999px;padding:3px 9px;
+    display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
+  }
+  .map .more::after{content:"▸";font-size:9px}
+  details.link[open] > summary .more::after{content:"▾"}
+  details.link[open] > summary .more{background:var(--enzyme);color:#fff}
+  .drop{
+    margin:6px 0 12px 18px;
+    background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--enzyme);
+    border-radius:10px;padding:15px 17px;font-size:15.5px;color:var(--ink-soft);
+  }
+  .drop .dkick{
+    font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--enzyme);font-weight:600;display:flex;align-items:center;gap:6px;margin-bottom:5px;
+  }
+  .drop .dname{
+    font-family:var(--display);font-weight:600;font-size:18px;color:var(--ink);
+    line-height:1.2;margin-bottom:13px;
+  }
+  .drop .rxn{margin-top:0}
+  .drop p{margin:0}
+  .drop p+p{margin-top:9px}
+  .drop b{color:var(--ink);font-weight:600}
+  .drop .mini{
+    display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;
+  }
+  .drop .mini .box{
+    flex:1 1 200px;background:var(--bg);border-radius:8px;padding:11px 13px;font-size:14.5px;
+  }
+  .drop .mini .box h5{font-family:var(--display);font-weight:600;font-size:14px;color:var(--ink);margin-bottom:5px}
+  .drop .tnote{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);margin-top:10px}
+  .map .branch{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);padding:2px 0 2px 18px;font-style:italic}
+  .map .branch b{color:var(--ink);font-style:normal}
+  .map .x2{font-family:var(--mono);font-size:11px;color:var(--ink-soft);font-weight:600}
+  /* aldolase split: two products shown side by side */
+  .map .splitwrap{display:inline-flex;flex-wrap:wrap;align-items:center;gap:9px}
+  .map .plus{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--ink-soft)}
+
+  /* ---- compound "worth knowing" dropdowns ---- */
+  .map .cnode{margin:0 0 2px}
+  .map .cnode > summary{
+    list-style:none;cursor:pointer;position:relative;padding:5px 0;
+    display:flex;align-items:center;flex-wrap:wrap;gap:9px;border-radius:8px;
+  }
+  .map .cnode > summary::-webkit-details-marker{display:none}
+  .map .cnode > summary::before{
+    content:"";position:absolute;left:-13px;top:50%;width:9px;height:9px;border-radius:50%;
+    background:var(--ink);border:2px solid var(--ink);transform:translateY(-50%);
+  }
+  .map .cnode > summary:hover{background:var(--bg)}
+  .map .cmore{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--ink-soft);
+    background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 9px;
+    display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
+  }
+  .map .cmore::after{content:"▸";font-size:9px}
+  .map .cnode[open] > summary .cmore::after{content:"▾"}
+  .map .cnode[open] > summary .cmore{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .drop.cdrop{border-left-color:var(--ink)}
+  .drop .ckick{
+    font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink-soft);font-weight:600;margin-bottom:5px;
+  }
+  .map .splitlabel{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--ink-soft);padding:6px 0 2px 0;
+  }
+  .maplegend{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);line-height:1.8}
+
+  /* note: value of the irreversible steps (below the overview map) */
+  .irrev-note{margin-top:16px;background:var(--control-soft);border-radius:14px;padding:22px 24px}
+  .irrev-note h3{font-family:var(--display);font-weight:700;font-size:19px;color:var(--control);margin-bottom:10px}
+  .irrev-note > p{font-size:16px;color:var(--ink-soft)}
+  .irrev-note ul{list-style:none;margin-top:12px}
+  .irrev-note li{padding:6px 0 6px 24px;position:relative;font-size:15.5px;color:var(--ink)}
+  .irrev-note li::before{content:"→";position:absolute;left:0;color:var(--control);font-weight:600}
+  .irrev-note b{color:var(--ink);font-weight:600}
+
+  /* Kₘ definition box */
+  .kmbox{margin-bottom:16px}
+  .kmbox h3{font-family:var(--display);font-weight:600;font-size:18px;color:var(--ink);margin-bottom:10px}
+  .kmbox p{color:var(--ink-soft);font-size:16px}
+  .kmbox p+p{margin-top:10px}
+  .kmbox b{color:var(--ink);font-weight:600}
+  .kmgrid{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .kmcell{flex:1 1 220px;border-radius:9px;padding:14px 16px;font-size:15px;color:var(--ink)}
+  .kmcell.hi{background:var(--payoff-soft)}
+  .kmcell.lo{background:var(--control-soft)}
+  .kmcell b{display:block;margin-bottom:4px;font-weight:600}
+  .kmcell.hi b{color:var(--payoff)}
+  .kmcell.lo b{color:var(--control)}
+  .kmcell span{color:var(--ink-soft);font-size:14.5px}
+
+  /* ---------- Pathway spine (detailed) ---------- */
+  .pathway .spine-head{
     font-family:var(--display);font-weight:600;font-size:14px;
     letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);
     margin-bottom:28px;
-  }
-
-  .mol{
-    font-family:var(--mono);
-    font-weight:600;
-    font-size:15px;
-    color:var(--ink);
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:8px;
-    padding:9px 14px;
-    display:inline-block;
   }
 
   .step{
@@ -145,14 +388,18 @@
   .enzyme{
     background:var(--surface);
     border:1px solid var(--line);
-    border-left:4px solid var(--line);
+    border-left:4px solid var(--enzyme);
     border-radius:10px;
-    padding:16px 18px;
+    padding:14px 18px 16px;
   }
   .arrow.invest .enzyme{border-left-color:var(--invest)}
   .arrow.payoff .enzyme{border-left-color:var(--payoff)}
   .arrow.control .enzyme{border-left-color:var(--control)}
 
+  .enzyme .kicker{
+    font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--enzyme);font-weight:600;margin-bottom:9px;display:flex;align-items:center;gap:6px;
+  }
   .enzyme .name{
     font-family:var(--display);font-weight:600;font-size:18px;
     display:flex;align-items:baseline;flex-wrap:wrap;gap:10px;
@@ -185,25 +432,12 @@
   }
   .enzyme .why b{font-weight:600}
 
-  /* small split note */
+  /* small split / isomerization note (a quiet step, no dedicated enzyme card) */
   .splitnote{
     font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);
     padding:4px 0 4px 34px;font-style:normal;
   }
-
-  /* ---------- Section panels ---------- */
-  .section{margin-top:56px}
-  .section > h2{
-    font-family:var(--display);font-weight:700;
-    font-size:27px;letter-spacing:-.01em;margin-bottom:6px;
-  }
-  .section > .lede{color:var(--ink-soft);font-size:16.5px;margin-bottom:22px;max-width:64ch}
-
-  .panel{
-    background:var(--surface);border:1px solid var(--line);
-    border-radius:14px;padding:24px;
-  }
-  .panel + .panel{margin-top:16px}
+  .splitnote em{color:var(--enzyme);font-style:italic;font-weight:600}
 
   /* comparison table */
   table{width:100%;border-collapse:collapse;font-size:15.5px}
@@ -275,6 +509,7 @@
   @media (max-width:560px){
     body{font-size:16px;padding:32px 14px 60px}
     .enzyme .name{font-size:16.5px}
+    .bigmap .sep{transform:rotate(90deg)}
   }
 
   @media print{
@@ -282,115 +517,343 @@
     .enzyme,.panel,.mol{box-shadow:none}
     .section,.arrow{break-inside:avoid}
     .ledger .net{background:#fff !important;border-color:var(--ink) !important}
-    .ledger .net .k{color:var(--ink-soft) !important}
+    .ledger .net .k,.ledger .net .x{color:var(--ink-soft) !important}
     .ledger .net .v{color:var(--ink) !important}
+    .bigmap .io.out{background:#fff !important;border-color:var(--payoff) !important}
+    .bigmap .io.out .ioname{color:var(--ink) !important}
+    .bigmap .io.out .iolbl,.bigmap .io.out .iosub{color:var(--ink-soft) !important}
   }
 </style>
 </head>
 <body>
 <div class="sheet">
 
+  <!-- ===== Table of contents (fixed side dropdown) ===== -->
+  <nav class="toc-side">
+    <details>
+      <summary>Table of contents</summary>
+      <div class="toc-menu">
+        <a href="#zoom">Zooming in on glycolysis</a>
+        <a href="#needs">What glycolysis needs &amp; makes</a>
+        <a href="#overview">Steps of glycolysis</a>
+        <a href="#hk-gk">Hexokinase vs. Glucokinase</a>
+        <a href="#pfk">How PFK-1 is controlled</a>
+        <a href="#proceeds">Regenerating NAD⁺</a>
+      </div>
+    </details>
+  </nav>
+
   <header>
     <div class="eyebrow">Metabolism · Study Sheet</div>
     <h1>Glycolysis</h1>
-    <p class="bigpic">The pathway that breaks a <strong>monosaccharide</strong> (usually glucose, but also fructose and galactose) down into pyruvate. One 6-carbon glucose is split into <strong>two 3-carbon pyruvates</strong>, capturing a little energy along the way. It runs in the cytoplasm and needs <strong>no oxygen</strong>.</p>
+    <p class="bigpic">The overall goal of cellular metabolism is to make usable energy (ATP). When you start with sugars (monosaccharides), ATP is created through a sequence of three metabolic processes:</p>
 
+    <!-- ===== Metabolic stage flow ===== -->
+    <div class="bigmap">
+      <div class="io in">
+        <div class="iolbl">Input · fuel</div>
+        <div class="ioname">Monosaccharide</div>
+        <div class="iosub">e.g. glucose</div>
+      </div>
+      <div class="sep">↓</div>
+      <div class="proc here">
+        <div class="ptxt">
+          <div class="proclbl">Process · you are here</div>
+          <div class="procname">Glycolysis</div>
+        </div>
+        <div class="atp">+2 ATP</div>
+      </div>
+      <div class="sep">↓</div>
+      <div class="proc">
+        <div class="ptxt">
+          <div class="proclbl">Process</div>
+          <div class="procname">TCA cycle</div>
+        </div>
+        <div class="atp">+2 ATP</div>
+      </div>
+      <div class="sep">↓</div>
+      <div class="proc">
+        <div class="ptxt">
+          <div class="proclbl">Process</div>
+          <div class="procname">Oxidative phosphorylation</div>
+        </div>
+        <div class="atp">+26 to 28 ATP</div>
+      </div>
+      <div class="sep">↓</div>
+      <div class="io out">
+        <div class="iolbl">Output · energy</div>
+        <div class="ioname">~30–32 ATP</div>
+        <div class="iosub">per glucose</div>
+      </div>
+    </div>
+
+    <!-- ===== Zoom into glycolysis ===== -->
+    <h2 id="zoom">Zooming in on glycolysis</h2>
+    <p class="bigpic">Glycolysis takes in a six-carbon monosaccharide (typically glucose) and turns it into two three-carbon pyruvate molecules. This reaction occurs in the cytosol and does not need oxygen. Each pyruvate is then converted to acetyl‑CoA, the molecule the TCA cycle needs to begin, with the help of the enzyme pyruvate dehydrogenase.</p>
+    <div class="duo">
+      <div class="pbox gly">
+        <div class="pboxlbl">Glycolysis</div>
+        <div class="pboxbody">
+          <span class="mw"><span class="cmpd">Glucose</span><span class="iolab">input</span></span>
+          <span class="iarw">→ ⋯ →</span>
+          <span class="mw"><span class="cmpd">Pyruvate</span><span class="iolab">output</span></span>
+        </div>
+      </div>
+
+      <div class="bridge">
+        <span class="btag">enzyme</span>
+        <span class="benz">pyruvate dehydrogenase</span>
+        <span class="barw">→</span>
+      </div>
+
+      <div class="pbox">
+        <div class="pboxlbl">TCA cycle</div>
+        <div class="pboxbody">
+          <span class="mw"><span class="cmpd">Acetyl‑CoA</span><span class="iolab">input</span></span>
+          <span class="iarw">→ ⋯</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Inputs / products ===== -->
+    <h2 id="needs">What glycolysis needs &amp; makes (per glucose)</h2>
     <div class="ledger">
-      <div class="cell invest"><div class="k">Phase 1 · Invest</div><div class="v">−2 ATP</div></div>
-      <div class="cell payoff"><div class="k">Phase 2 · Payoff</div><div class="v">+4 ATP</div></div>
-      <div class="cell payoff"><div class="k">Electron carrier</div><div class="v">+2 NADH</div></div>
-      <div class="cell net"><div class="k">Net per glucose</div><div class="v">+2 ATP · 2 NADH</div></div>
+      <div class="cell invest"><div class="k">Requires</div><div class="v">2 ATP · 2 NAD⁺</div><span class="x">+ 4 ADP &amp; 2 Pᵢ</span></div>
+      <div class="cell payoff"><div class="k">Produces</div><div class="v">2 pyruvate · 4 ATP · 2 NADH</div><span class="x">+ 2 ADP</span></div>
+      <div class="cell payoff"><div class="k">Net yield</div><div class="v">2 ATP · 2 NADH</div><span class="x">4 ATP made − 2 ATP used</span></div>
+      <div class="cell net"><div class="k">Key catch</div><div class="v">Must regenerate NAD⁺</div><span class="x">or glycolysis stalls</span></div>
     </div>
 
-    <div class="legend">
-      <span><i class="dot i"></i> Energy investment (spends ATP)</span>
-      <span><i class="dot p"></i> Energy payoff (makes ATP / NADH)</span>
-      <span><i class="dot c"></i> Control point · irreversible</span>
-    </div>
+    <!-- ===== Legend ===== -->
   </header>
 
-  <!-- ============ PATHWAY SPINE ============ -->
-  <section class="pathway">
-    <div class="spine-head">↓ The pathway, top to bottom</div>
+  <!-- ============ 01 · OVERVIEW MAP ============ -->
+  <section class="section" id="overview">
+    <h2>Steps of glycolysis</h2>
+    <p class="lede">Each compound in glycolysis and the enzymes that catalyze each step. Click on the details buttons to learn information the MCAT focuses on. Compounds and enzymes shown in gray are not emphasized on the MCAT.</p>
+    <div class="legend">
+      <span><span class="chip-c">Compound</span> a molecule in the pathway</span>
+      <span><span class="chip-e">Enzyme</span> catalyzes a step</span>
+    </div>
 
-    <div class="step"><span class="mol">Glucose</span></div>
-
-    <div class="arrow invest control">
-      <div class="enzyme">
-        <div class="name">Hexokinase / Glucokinase
-          <span class="tag ctrl">Control point</span><span class="tag inv">Invest 1 ATP</span>
+    <div class="panel">
+      <div class="map">
+        <div class="node"><span class="cmpd muted">Glucose</span></div>
+        <details class="link">
+          <summary>
+            <span class="sn">1</span>
+            <span class="ez">Hexokinase / Glucokinase</span>
+            <span class="cost inv">invest ATP</span><span class="cost ctl">irreversible</span>
+            <span class="more">details</span>
+          </summary>
+          <div class="drop">
+            <div class="dkick">Enzyme</div>
+            <div class="dname">Hexokinase / Glucokinase</div>
+            <div class="rxn">glucose + <span class="hl-i">ATP</span> → glucose-6-phosphate + ADP</div>
+            <p>The enzymes move a phosphate group from ATP onto glucose. Each enzyme has its own characteristics.</p>
+            <p style="font-family:var(--display);font-weight:600;font-size:15px;color:var(--ink);margin-top:14px;margin-bottom:6px">Hexokinase</p>
+            <ul style="list-style:disc;padding-left:24px;color:var(--ink-soft)">
+              <li style="margin-top:5px">Found in <b>most tissues</b>.</li>
+              <li style="margin-top:5px">Has a <b>high affinity</b> for glucose (a low K<sub>m</sub>), so it binds to and phosphorylates glucose rapidly even when glucose concentrations are low. This lets the tissues use glucose at low concentrations.</li>
+              <li style="margin-top:5px"><b>Inhibited by its own product, glucose-6-phosphate (G6P)</b>: as G6P builds up, hexokinase slows down, so a cell only uses as much glucose as it needs to meet its energy demand.</li>
+            </ul>
+            <p style="font-family:var(--display);font-weight:600;font-size:15px;color:var(--ink);margin-top:14px;margin-bottom:6px">Glucokinase</p>
+            <ul style="list-style:disc;padding-left:24px;color:var(--ink-soft)">
+              <li style="margin-top:5px">Found in the <b>liver and pancreatic β-cells</b>.</li>
+              <li style="margin-top:5px">Has a <b>low affinity</b> for glucose (a high K<sub>m</sub>), so it only becomes active when glucose concentrations are high and there is excess to be stored. This lets the liver take up and process the excess only when there is glucose to spare, rather than competing with other tissues when glucose is limited.</li>
+              <li style="margin-top:5px"><b>Induced by insulin</b>: high insulin increases expression of glucokinase, which makes the liver better able to take up and process glucose.</li>
+            </ul>
+            <p class="tnote">K<sub>m</sub> is inversely related to affinity (low K<sub>m</sub> = high affinity). <a href="#km" style="color:var(--enzyme);text-decoration:underline;text-underline-offset:2px">What is K<sub>m</sub>? ↓</a></p>
+          </div>
+        </details>
+        <div class="node"><span class="cmpd muted">Glucose-6-phosphate</span></div>
+        <div class="link muted">
+          <span class="sn">2</span>
+          <span class="ez">Phosphoglucose isomerase</span>
+          <span class="cost plain">isomerize</span>
         </div>
-        <div class="rxn">glucose + <span class="hl-i">ATP</span> → glucose-6-phosphate + ADP</div>
-        <p>Sticks a phosphate onto glucose. This costs one ATP up front — an investment that primes the molecule for the energy-releasing steps later.</p>
-        <p class="why"><b>Why phosphorylate first?</b> The glucose transporter only moves <i>unphosphorylated</i> glucose, so adding the phosphate <b>traps glucose inside the cell</b>. It also keeps free intracellular glucose low, which keeps glucose flowing in.</p>
+        <div class="node"><span class="cmpd muted">Fructose-6-phosphate</span></div>
+        <details class="link">
+          <summary>
+            <span class="sn">3</span>
+            <span class="ez">Phosphofructokinase-1 (PFK-1)</span>
+            <span class="cost inv">invest ATP</span><span class="cost ctl">rate-limiting</span><span class="cost ctl">irreversible</span>
+            <span class="more">details</span>
+          </summary>
+          <div class="drop">
+            <div class="dkick">Enzyme</div>
+            <div class="dname">Phosphofructokinase-1 (PFK-1)</div>
+            <div class="rxn">fructose-6-phosphate + <span class="hl-i">ATP</span> → fructose-1,6-bisphosphate + ADP</div>
+            <p>The enzyme moves a phosphate from another ATP to the <b>Spends a second ATP to add another phosphate — and this is the pathway's big decision point.</b> PFK-1 is the <b>rate-limiting, irreversible step</b>: once it fires, the molecule is committed to being broken all the way down to pyruvate. Because this step commits the cell's resources, it is tightly regulated — in two separate ways.</p>
+
+            <p style="font-family:var(--display);font-weight:600;font-size:15px;color:var(--ink);margin-top:16px;margin-bottom:6px">1 · The cell's energy level (direct control)</p>
+            <p>PFK-1 senses how much energy the cell already has and adjusts its rate to match — speeding up when energy is low, slowing down when energy is high:</p>
+            <div class="mini">
+              <div class="box"><h5>Activated by ▲</h5><b>AMP</b> — builds up as ATP gets used, signalling the cell is <b>low on energy</b> and needs glycolysis to run.</div>
+              <div class="box"><h5>Inhibited by ▼</h5><b>ATP</b> — energy is already plentiful, so there's no need to make more · <b>citrate</b> — a TCA-cycle intermediate; if it's piling up, the cell is already energy-rich.</div>
+            </div>
+
+            <p style="font-family:var(--display);font-weight:600;font-size:15px;color:var(--ink);margin-top:16px;margin-bottom:6px">2 · Hormones, in the liver (indirect control)</p>
+            <p>The liver can override those energy signals so it can manage glucose for the whole body. Insulin and glucagon don't act on PFK-1 directly — instead they change the level of <b>fructose-2,6-bisphosphate (F-2,6-BP)</b>, a dedicated activator of PFK-1:</p>
+            <ul style="list-style:disc;padding-left:24px;color:var(--ink-soft)">
+              <li style="margin-top:6px"><b>Insulin</b> (high blood glucose, after a meal) raises F-2,6-BP, switching PFK-1 <b>on</b> — so the liver pushes glucose through glycolysis and stores the surplus as glycogen and fat. <i>Makes sense: glucose is abundant, so use and store it.</i></li>
+              <li style="margin-top:6px"><b>Glucagon</b> (low blood glucose, fasting) lowers F-2,6-BP, switching PFK-1 <b>off</b> — so the liver stops burning glucose, sparing it for tissues that depend on it like the brain and red blood cells. <i>Makes sense: glucose is scarce, so save it.</i></li>
+            </ul>
+          </div>
+        </details>
+        <div class="node"><span class="cmpd muted">Fructose-1,6-bisphosphate</span></div>
+        <details class="link">
+          <summary>
+            <span class="sn">4</span>
+            <span class="ez">Aldolase</span>
+            <span class="cost plain">split 6C → 2 × 3C</span>
+            <span class="more">details</span>
+          </summary>
+          <div class="drop">
+            <div class="dkick">Enzyme</div>
+            <div class="dname">Aldolase</div>
+            <p><b>Cuts the 6-carbon sugar cleanly in half</b>, producing <b>two different 3-carbon molecules</b> — DHAP and glyceraldehyde-3-phosphate (G3P). From here on, the pathway runs on these 3-carbon pieces, which is why every step below happens twice.</p>
+            <p><b>DHAP's side job:</b> in <b>liver &amp; fat tissue</b>, DHAP can be pulled out of glycolysis and turned into glycerol-3-phosphate → glycerol, the <b>backbone of triacylglycerols (fat synthesis)</b>.</p>
+          </div>
+        </details>
+        <div class="splitlabel">↓ splits into two 3-carbon products</div>
+        <details class="cnode">
+          <summary>
+            <span class="splitwrap">
+              <span class="cmpd">Dihydroxyacetone phosphate (DHAP)</span>
+              <span class="plus">+</span>
+              <span class="cmpd muted">Glyceraldehyde-3-phosphate</span>
+            </span>
+            <span class="cmore">DHAP: details</span>
+          </summary>
+          <div class="drop cdrop">
+            <div class="ckick">Intermediate worth knowing</div>
+            <div class="dname">Dihydroxyacetone phosphate (DHAP)</div>
+            <p>One of the two 3-carbon products of the aldolase split. On the main path it's converted to G3P and continues through glycolysis — but it has an important side job.</p>
+            <p><b>Fat synthesis:</b> in <b>liver and fat tissue</b>, DHAP can be pulled out of glycolysis and isomerized to <b>glycerol-3-phosphate</b>, which becomes glycerol — the <b>backbone of triacylglycerols (fat)</b>.</p>
+          </div>
+        </details>
+        <div class="link muted">
+          <span class="sn">5</span>
+          <span class="ez">Triose-phosphate isomerase</span>
+          <span class="cost plain">DHAP → G3P</span>
+        </div>
+        <div class="branch">DHAP is converted to G3P, so the pathway continues as <b>glyceraldehyde-3-phosphate ×2</b> — everything below now happens twice.</div>
+        <div class="node"><span class="cmpd muted">Glyceraldehyde-3-phosphate</span> <span class="x2">×2</span></div>
+        <details class="link" id="step6">
+          <summary>
+            <span class="sn">6</span>
+            <span class="ez">GAPDH</span>
+            <span class="cost pay">make NADH</span>
+            <span class="more">details</span>
+          </summary>
+          <div class="drop">
+            <div class="dkick">Enzyme</div>
+            <div class="dname">Glyceraldehyde-3-phosphate dehydrogenase (GAPDH)</div>
+            <div class="rxn">G3P + Pᵢ + <span class="hl-p">NAD⁺</span> → 1,3-bisphosphoglycerate + <span class="hl-p">NADH</span></div>
+            <p><b>This is where glycolysis first banks energy.</b> The enzyme pulls energy out of the sugar and loads it onto <b>NAD⁺, converting it into NADH</b>. Think of NAD⁺ as a <b>reusable shuttle</b>: <b>NAD⁺ is the empty form</b>, and once it's loaded with energy from the sugar it becomes <b>NADH, the loaded form</b> — which can be cashed in for a lot of ATP later. At the same time, the enzyme builds a high-energy phosphate bond into the molecule.</p>
+            <p>The catch: the cell only has a <b>small pool of NAD⁺</b>, so it must constantly be regenerated, or this step — and all of glycolysis — grinds to a halt. There are two ways out:</p>
+            <div class="mini">
+              <div class="box"><h5>Aerobic</h5>The <b>electron transport chain</b> turns NADH back into NAD⁺ — and that drives oxidative phosphorylation to make lots of ATP.</div>
+              <div class="box"><h5>Anaerobic</h5>When oxygen is scarce, <b>fermentation</b> regenerates NAD⁺ — making <b>lactate</b> (in mammals, via LDH) or <b>ethanol + CO₂</b> (in yeast).</div>
+            </div>
+          </div>
+        </details>
+        <details class="cnode">
+          <summary>
+            <span class="cmpd">1,3-bisphosphoglycerate</span>
+            <span class="cmore">details</span>
+          </summary>
+          <div class="drop cdrop">
+            <div class="ckick">Intermediate worth knowing</div>
+            <div class="dname">1,3-bisphosphoglycerate</div>
+            <p>One of the pathway's two <b>high-energy intermediates</b>. The phosphate bond it carries is energetic enough to be handed straight to ADP — that's what powers the <b>substrate-level phosphorylation</b> at the next step (phosphoglycerate kinase) to make ATP.</p>
+            <p><b>RBC branch:</b> red blood cells can divert 1,3-BPG into <b>2,3-BPG</b>, which lowers hemoglobin's affinity for oxygen so it releases O₂ to the tissues.</p>
+          </div>
+        </details>
+        <details class="link">
+          <summary>
+            <span class="sn">7</span>
+            <span class="ez">Phosphoglycerate kinase</span>
+            <span class="cost pay">make ATP</span>
+            <span class="more">details</span>
+          </summary>
+          <div class="drop">
+            <div class="dkick">Enzyme</div>
+            <div class="dname">Phosphoglycerate kinase</div>
+            <div class="rxn">1,3-bisphosphoglycerate + ADP → 3-phosphoglycerate + <span class="hl-p">ATP</span></div>
+            <p><b>The first step that actually makes ATP.</b> The high-energy phosphate bond built in the previous step is handed <b>straight to ADP</b> to form ATP. This is called <b>substrate-level phosphorylation</b> — the phosphate comes directly off the substrate, so <b>no oxygen and no electron transport chain are needed</b>. It's how glycolysis makes ATP even anaerobically.</p>
+            <p><b>RBC branch:</b> red blood cells can divert 1,3-BPG into <b>2,3-BPG</b>, which <b>lowers hemoglobin's affinity for oxygen</b> so it lets go of O₂ and delivers it to the tissues.</p>
+          </div>
+        </details>
+        <div class="node"><span class="cmpd muted">3-phosphoglycerate</span></div>
+        <div class="link muted">
+          <span class="sn">8</span>
+          <span class="ez">Phosphoglycerate mutase</span>
+          <span class="cost plain">relocate Pᵢ</span>
+        </div>
+        <div class="node"><span class="cmpd muted">2-phosphoglycerate</span></div>
+        <div class="link muted">
+          <span class="sn">9</span>
+          <span class="ez">Enolase</span>
+          <span class="cost plain">dehydrate</span>
+        </div>
+        <details class="cnode">
+          <summary>
+            <span class="cmpd">Phosphoenolpyruvate (PEP)</span>
+            <span class="cmore">details</span>
+          </summary>
+          <div class="drop cdrop">
+            <div class="ckick">Intermediate worth knowing</div>
+            <div class="dname">Phosphoenolpyruvate (PEP)</div>
+            <p>The other <b>high-energy intermediate</b>, and the most energetic phosphate bond in the whole pathway — so it's readily donated to ADP. That drives the final <b>substrate-level phosphorylation</b> (pyruvate kinase) to make the last ATP and leave pyruvate.</p>
+          </div>
+        </details>
+        <details class="link">
+          <summary>
+            <span class="sn">10</span>
+            <span class="ez">Pyruvate kinase</span>
+            <span class="cost pay">make ATP</span><span class="cost ctl">irreversible</span>
+            <span class="more">details</span>
+          </summary>
+          <div class="drop">
+            <div class="dkick">Enzyme</div>
+            <div class="dname">Pyruvate kinase</div>
+            <div class="rxn">phosphoenolpyruvate + ADP → pyruvate + <span class="hl-p">ATP</span></div>
+            <p><b>The finish line.</b> A final phosphate is transferred from PEP straight to ADP — a second <b>substrate-level phosphorylation</b> — producing the payoff phase's second ATP and leaving <b>pyruvate</b>, the end product of glycolysis.</p>
+            <p><b>Feed-forward activation:</b> pyruvate kinase is switched on by <b>fructose-1,6-bisphosphate</b> (the product of PFK-1), so the early commitment made at PFK-1 reaches forward and pushes the pathway to finish. It's the last of the three <b>irreversible</b> control points.</p>
+          </div>
+        </details>
+        <div class="node"><span class="cmpd muted">Pyruvate</span> <span class="x2">×2 — end of glycolysis</span></div>
       </div>
     </div>
 
-    <div class="step"><span class="mol">Glucose-6-phosphate</span></div>
-    <div class="splitnote">↓ isomerized to fructose-6-phosphate</div>
-    <div class="step"><span class="mol">Fructose-6-phosphate</span></div>
-
-    <div class="arrow invest control">
-      <div class="enzyme">
-        <div class="name">Phosphofructokinase-1 (PFK-1)
-          <span class="tag ctrl">Rate-limiting</span><span class="tag inv">Invest 1 ATP</span>
-        </div>
-        <div class="rxn">fructose-6-phosphate + <span class="hl-i">ATP</span> → fructose-1,6-bisphosphate + ADP</div>
-        <p>The <b>main control point of glycolysis</b> — the rate-limiting, committed step. Whether sugar gets broken down is decided here.</p>
-        <p class="why"><b>The key regulatory decision.</b> Because this step commits the cell to glycolysis, it's wired to the cell's energy status — heavily inhibited when energy is high and activated when energy is low. Full logic in the regulation section below.</p>
-      </div>
+    <div class="irrev-note">
+      <h3>Why the irreversible steps matter</h3>
+      <p>Three steps in the map are effectively <b>one-way</b> — <b>step 1</b> (hexokinase / glucokinase), <b>step 3</b> (PFK-1), and <b>step 10</b> (pyruvate kinase), each tagged <b>irreversible</b> above. That one-way character is exactly what makes them valuable:</p>
+      <ul>
+        <li><b>They're the control points.</b> Because these reactions are far from equilibrium, dialing their enzymes up or down actually changes how fast the whole pathway runs — so the cell concentrates its regulation here, above all at <b>PFK-1</b>, the rate-limiting step.</li>
+        <li><b>Gluconeogenesis must route around them.</b> Making new glucose can't simply run glycolysis backward through these three — each one needs its own <b>dedicated bypass enzyme</b> to get around it.</li>
+      </ul>
     </div>
-
-    <div class="step"><span class="mol">Fructose-1,6-bisphosphate</span></div>
-    <div class="splitnote">↓ aldolase splits the 6-carbon sugar into two 3-carbon pieces:<br>&nbsp;&nbsp;&nbsp;DHAP&nbsp;⇄&nbsp;glyceraldehyde-3-phosphate &nbsp;(everything below now happens ×2)</div>
-    <div class="step"><span class="mol">Glyceraldehyde-3-phosphate</span> <span style="font-family:var(--mono);font-size:12px;color:var(--ink-soft)">×2</span></div>
-
-    <div class="arrow payoff">
-      <div class="enzyme">
-        <div class="name">Glyceraldehyde-3-phosphate dehydrogenase (GAPDH)
-          <span class="tag pay">Makes NADH</span>
-        </div>
-        <div class="rxn">G3P + Pᵢ + <span class="hl-p">NAD⁺</span> → 1,3-bisphosphoglycerate + <span class="hl-p">NADH</span></div>
-        <p>Captures energy as the electron carrier <b>NADH</b> and builds a high-energy phosphate bond into the molecule.</p>
-        <p class="why"><b>That NADH has to be dealt with.</b> It's either oxidized back to NAD⁺ by the <b>mitochondrial electron transport chain</b> (making ATP via oxidative phosphorylation, aerobic), or — when oxygen is scarce — regenerated by <b>lactate dehydrogenase</b> so glycolysis can keep running. NAD⁺ must be recycled or this step stalls.</p>
-      </div>
-    </div>
-
-    <div class="step"><span class="mol">1,3-bisphosphoglycerate</span></div>
-
-    <div class="arrow payoff">
-      <div class="enzyme">
-        <div class="name">Phosphoglycerate kinase
-          <span class="tag pay">Makes ATP</span><span class="tag slp">Substrate-level</span>
-        </div>
-        <div class="rxn">1,3-bisphosphoglycerate + ADP → 3-phosphoglycerate + <span class="hl-p">ATP</span></div>
-        <p>First ATP-producing step. The high-energy phosphate built in the previous step is handed directly to ADP.</p>
-        <p class="why"><b>Substrate-level phosphorylation:</b> ATP is made by transferring a phosphate straight from a high-energy substrate — <b>no oxygen and no electron transport chain required</b>. This is how glycolysis makes ATP even anaerobically.</p>
-      </div>
-    </div>
-
-    <div class="step"><span class="mol">3-phosphoglycerate</span></div>
-    <div class="splitnote">↓ rearranged and dehydrated</div>
-    <div class="step"><span class="mol">Phosphoenolpyruvate (PEP)</span></div>
-
-    <div class="arrow payoff control">
-      <div class="enzyme">
-        <div class="name">Pyruvate kinase
-          <span class="tag ctrl">Control point</span><span class="tag pay">Makes ATP</span><span class="tag slp">Substrate-level</span>
-        </div>
-        <div class="rxn">phosphoenolpyruvate + ADP → pyruvate + <span class="hl-p">ATP</span></div>
-        <p>The final step. Another substrate-level phosphorylation produces the second ATP of the payoff phase.</p>
-        <p class="why"><b>Feed-forward activation:</b> pyruvate kinase is switched on by <b>fructose-1,6-bisphosphate</b> — the product of PFK-1. So the early commitment to glycolysis (made at PFK-1) reaches forward and pushes the pathway to finish.</p>
-      </div>
-    </div>
-
-    <div class="step"><span class="mol">Pyruvate</span> <span style="font-family:var(--mono);font-size:12px;color:var(--ink-soft)">×2 — end of glycolysis</span></div>
   </section>
 
-  <!-- ============ HEXOKINASE vs GLUCOKINASE ============ -->
-  <section class="section">
+  <!-- ============ 02 · HEXOKINASE vs GLUCOKINASE ============ -->
+  <section class="section" id="hk-gk">
     <h2>Hexokinase vs. Glucokinase</h2>
-    <p class="lede">Both catalyze the same first step, but they're tuned for different jobs — this contrast is a classic exam favorite. Remember: <b>K<sub>m</sub> is inversely related to affinity</b> (low K<sub>m</sub> = high affinity).</p>
+    <p class="lede">Both catalyze the same first step, but they're tuned for different jobs — this contrast is a classic exam favorite. The difference comes down to <b>K<sub>m</sub></b>, so it's worth pinning down what that means first.</p>
+
+    <div class="panel kmbox">
+      <h3 id="km">What K<sub>m</sub> means</h3>
+      <p><b>K<sub>m</sub> — the Michaelis–Menten constant</b> — is the substrate concentration at which an enzyme runs at <b>half its maximum velocity</b> (½ V<sub>max</sub>). At that concentration, on average <b>half the active sites are occupied</b> by substrate.</p>
+      <div class="rxn">K<sub>m</sub> = [substrate] at which velocity = ½ V<sub>max</sub></div>
+      <p>It's used as a readout of <b>affinity</b> — how tightly the enzyme grips its substrate — and the relationship is <b>inverse</b>: an enzyme that binds tightly already hits half-speed while substrate is still scarce, so it has a <i>low</i> K<sub>m</sub>.</p>
+      <div class="kmgrid">
+        <div class="kmcell hi"><b>Low K<sub>m</sub> → high affinity</b><span>Reaches half-speed at low substrate; works even when substrate is scarce.</span></div>
+        <div class="kmcell lo"><b>High K<sub>m</sub> → low affinity</b><span>Needs a lot of substrate to get going; only ramps up when substrate is plentiful.</span></div>
+      </div>
+    </div>
+
     <div class="panel">
       <table>
         <thead>
@@ -407,7 +870,7 @@
   </section>
 
   <!-- ============ PFK-1 REGULATION ============ -->
-  <section class="section">
+  <section class="section" id="pfk">
     <h2>How PFK-1 is controlled</h2>
     <p class="lede">Because PFK-1 sets the pace of the whole pathway, the cell regulates it directly with energy-status signals, and indirectly (in the liver) with hormones.</p>
 
@@ -439,63 +902,30 @@
     </div>
   </section>
 
-  <!-- ============ THE NAD+ PROBLEM & FERMENTATION ============ -->
-  <section class="section">
-    <h2>The NAD⁺ problem &amp; fermentation</h2>
-    <p class="lede">GAPDH consumes NAD⁺. The cell only has a limited pool, so NAD⁺ must constantly be regenerated or glycolysis grinds to a halt. When oxygen is scarce, fermentation does that job.</p>
+  <!-- ============ 03 · HOW IT PROCEEDS — NAD+ & FERMENTATION ============ -->
+  <section class="section" id="proceeds">
+    <h2>Regenerating NAD⁺</h2>
+    <p class="lede">In <a href="#step6" style="color:var(--enzyme);text-decoration:underline;text-underline-offset:2px">step 6</a>, GAPDH takes one NAD⁺ and turns it into NADH. However, cells have a <b>limited amount of NAD⁺</b>, so for glycolysis to keep running, NADH must be turned back into NAD⁺ as quickly GAPDH uses it. If NAD⁺ becomes scarce, step 6 and, consequently, all of glycolysis slows. To avoid this, cells have two methods to regenerate NAD⁺:</p>
 
     <div class="panel">
-      <p style="color:var(--ink-soft)">When oxygen is poor, the electron transport chain can't accept electrons, so <b>NADH piles up and NAD⁺ runs out</b>. Pyruvate also accumulates. Fermentation solves both at once: it dumps the electrons from NADH onto pyruvate, regenerating NAD⁺ so GAPDH — and therefore glycolysis — can keep going.</p>
+      <p style="font-family:var(--display);font-weight:600;font-size:16px;margin-bottom:8px">With oxygen — the electron transport chain</p>
+      <p style="color:var(--ink-soft)">When oxygen is available, NADH travels to the <b>electron transport chain</b> in the mitochondria, where it is turned back into NAD⁺. This both <b>regenerates NAD⁺</b> (so glycolysis continues) and <b>powers ATP synthesis</b>.</p>
 
-      <div style="margin-top:18px">
-        <p style="font-family:var(--display);font-weight:600;font-size:16px;margin-bottom:8px">In mammals — lactate dehydrogenase (LDH)</p>
-        <div class="rxn">pyruvate + <span class="hl-p">NADH</span> → lactate + <span class="hl-p">NAD⁺</span></div>
-        <p style="color:var(--ink-soft);margin-top:8px">The whole point is the <b>NAD⁺ on the right</b> — replenishing the oxidized coenzyme that GAPDH needs.</p>
+      <div style="margin-top:22px;border-top:1px solid var(--rule);padding-top:18px">
+        <p style="font-family:var(--display);font-weight:600;font-size:16px;margin-bottom:8px">Without oxygen — lactate fermentation</p>
+        <p style="color:var(--ink-soft)">With little or no oxygen, the electron transport chain slows or stops. This creates two problems:</p>
+
+        <ul style="list-style:disc;margin-top:10px;padding-left:24px;color:var(--ink-soft)">
+          <li style="margin-top:6px"><b>NAD⁺ becomes scarce.</b> With the electron transport chain slowed, less NADH is converted back to NAD⁺.</li>
+          <li style="margin-top:6px"><b>Pyruvate builds up.</b> Normally pyruvate (the end product of glycolysis) would be turned to acetyl-CoA and enter the <b>TCA cycle</b>. However, the TCA cycle also depends on NAD⁺, so when NAD⁺ is scarce, the cycle slows down and becomes less able to use pyruvate.</li>
+        </ul>
+
+        <div style="margin-top:18px">
+          <p style="color:var(--ink-soft);margin-bottom:10px"><b>Fermentation solves both problems.</b> The built-up pyruvate is used to turn NADH back into NAD⁺, and in mammals, the reaction is mediated by the enzyme <b>lactate dehydrogenase (LDH)</b>.</p>
+          <div class="rxn">pyruvate + <span class="hl-p">NADH</span> → lactate + <span class="hl-p">NAD⁺</span></div>
+          <p style="color:var(--ink-soft);margin-top:8px"></p>
+        </div>
       </div>
-
-      <div style="margin-top:18px">
-        <p style="font-family:var(--display);font-weight:600;font-size:16px;margin-bottom:8px">In yeast — alcoholic fermentation</p>
-        <div class="rxn">pyruvate → ethanol + CO₂ &nbsp;&nbsp;(regenerating NAD⁺)</div>
-        <p style="color:var(--ink-soft);margin-top:8px">Different products, identical purpose: <b>regenerate NAD⁺</b>.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ IMPORTANT INTERMEDIATES ============ -->
-  <section class="section">
-    <h2>Intermediates worth knowing</h2>
-    <p class="lede">A few molecules in the pathway have jobs beyond just being a step on the way to pyruvate.</p>
-
-    <div class="panel">
-      <ul class="clean">
-        <li><b>Dihydroxyacetone phosphate (DHAP)</b> — formed when fructose-1,6-bisphosphate is split. In <b>liver and fat tissue</b>, it's isomerized to <span class="mono">glycerol-3-phosphate</span>, which becomes glycerol — the <b>backbone of triacylglycerols (fat synthesis)</b>.</li>
-        <li><b>1,3-bisphosphoglycerate &amp; PEP</b> — the two <b>high-energy intermediates</b> that drive substrate-level phosphorylation, donating their phosphates to make the pathway's ATP.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ============ RBCs ============ -->
-  <section class="section">
-    <h2>Special case: red blood cells</h2>
-    <p class="lede">Erythrocytes have no mitochondria, so they rely entirely on glycolysis — and they run a useful side-branch off it.</p>
-    <div class="panel">
-      <p style="color:var(--ink-soft)">RBCs have an extra enzyme, <b>bisphosphoglycerate mutase</b>, that diverts 1,3-BPG into <b>2,3-BPG</b>:</p>
-      <div class="rxn">1,3-bisphosphoglycerate → 2,3-bisphosphoglycerate (2,3-BPG)</div>
-      <p style="color:var(--ink-soft);margin-top:10px"><b>2,3-BPG lowers hemoglobin's affinity for oxygen</b>, which helps hemoglobin <b>release O₂ to the tissues</b> as blood passes through them.</p>
-    </div>
-  </section>
-
-  <!-- ============ IRREVERSIBLE STEPS ============ -->
-  <section class="section">
-    <h2>The irreversible steps</h2>
-    <p class="lede">Three steps in glycolysis are effectively one-way. They're the control points — and they're exactly the steps that <b>gluconeogenesis</b> (making new glucose) must route <i>around</i> using different enzymes.</p>
-    <div class="panel">
-      <div class="key-enzymes">
-        <div class="ke">Hexokinase / Glucokinase<span>step 1 · counts as one step</span></div>
-        <div class="ke">PFK-1<span>step 3 · rate-limiting</span></div>
-        <div class="ke">Pyruvate kinase<span>final step</span></div>
-      </div>
-      <p style="color:var(--ink-soft);margin-top:16px">Their irreversibility is what makes them useful as regulatory valves — and why building glucose back up requires its own dedicated enzymes to bypass each one.</p>
     </div>
   </section>
 
